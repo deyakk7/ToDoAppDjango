@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link
+      type="image/png"
+      sizes="32x32"
+      rel="icon"
+      href="{% static 'favicon.png' %}"
+    />
+
+    <link rel="stylesheet" href="{% static 'base.css' %}" />
+    {% block styles_css %} {% endblock styles_css %}
+  </head>
+  <body
+    style="
+      background: linear-gradient(90deg, rgba(246, 204, 14, 0.4),rgba(250, 30, 30, 0.5)), url('{% static 'background.jpg' %}') fixed
+        center/cover no-repeat;
+    "
+  >
+    <header>
+      <li><a href="{% url 'index' %}">
+      {% if user.is_authenticated %}
+        {{ user.username }}
+      {% else %}
+      home
+      {% endif %}      
+      </a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'logout' %}">logout</a></li>
+      {% else %}
+      <li><a href="{% url 'login' %}">login</a></li>
+      <li><a href="{% url 'register' %}">registration</a></li>
+      {% endif %}
+    </header>
+    {% block content %} {% endblock content %}
+  </body>
+</html>

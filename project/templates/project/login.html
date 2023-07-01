@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles_css %}
+    <link rel="stylesheet" href="{% static 'project/styles/register.css' %}">
+    <link rel="stylesheet" href="{% static 'project/styles/login.css' %}">
+{% endblock styles_css %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="main-text">Log in</h1>
+        
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                {{field}}    
+            {% endfor %}
+            {% if error %}
+            <p>{{error}}</p>
+            
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+    
+{% endblock %}
