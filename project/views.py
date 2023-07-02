@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
@@ -82,7 +82,7 @@ def add(request):
 
 
 def update(request, pk):
-    task = Task.objects.get(id=pk)
+    task = get_object_or_404(Task, pk=pk)
     if task.owner != request.user:
         return redirect('index')
     form = forms.TaskForm(instance=task)
@@ -95,7 +95,17 @@ def update(request, pk):
 
 
 def detail(requets, pk):
-    task = Task.objects.get(id=pk)
+    task = get_object_or_404(Task, pk=pk)
     if task.owner != requets.user:
         return redirect('index')
     return render(requets, 'project/detail.html', {'task': task})
+
+
+def delete(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if task.owner != request.user:
+        return redirect('index')
+    if request.method == 'POST':
+        task.delete()
+        return redirect('index')
+    return render(request, 'project/delete.html', {'task': task})

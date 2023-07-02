@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block styles_css %}
+
+{% endblock styles_css %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <h1>Are you sure?</h1>
+        <button class="btn btn-success" type="submit">Yes</button>
+        <a href="{% url 'index' %}" class="btn btn-danger">No</a>
+    </form>
+{% endblock content %}

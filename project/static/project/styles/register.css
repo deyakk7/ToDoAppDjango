@@ -12,7 +12,7 @@
   border-radius: 20px;
   border: 1px solid #fff;
   padding: 0;
-  min-width: 400px;
+  min-width: 350px;
 }
 
 input{
@@ -48,8 +48,12 @@ input{
 }
 
 .btn{
-  margin: 4rem 50%;
-  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  /* width: 40%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* transform: translate(-50%, -50%); */
   font-size: 22px;
   color:#222;
   background:linear-gradient(rgba(102, 246, 239, 0.199), rgba(102, 246, 239, 0.242));
