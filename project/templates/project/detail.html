@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block styles_css %}
+
+{% endblock styles_css %}
+
+{% block content %}
+    {{task.title}}
+    {{task.description}}
+    {{task.complete}}
+{% endblock content %}

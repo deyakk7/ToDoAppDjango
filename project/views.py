@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
-from . import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from django.views.generic.edit import UpdateView
+from django.contrib.auth.decorators import login_required
+
+from . import forms
+from .models import Task
 
 # Create your views here.
 def index(request):
@@ -63,3 +68,34 @@ def logout_page(request):
     logout(request)
     return redirect('index')
 
+@login_required(login_url='login')
+def add(request):
+    form = forms.TaskForm()
+    if request.method == 'POST':
+        form = forms.TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.owner = request.user
+            task.save()
+            return redirect('index')
+    return render(request, 'project/add.html', {'form': form})
+
+
+def update(request, pk):
+    task = Task.objects.get(id=pk)
+    if task.owner != request.user:
+        return redirect('index')
+    form = forms.TaskForm(instance=task)
+    if request.method == 'POST':
+        form = forms.TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    return render(request, 'project/update.html', {'form': form})
+
+
+def detail(requets, pk):
+    task = Task.objects.get(id=pk)
+    if task.owner != requets.user:
+        return redirect('index')
+    return render(requets, 'project/detail.html', {'task': task})
