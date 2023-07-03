@@ -14,7 +14,7 @@
       rel="icon"
       href="{% static 'favicon.png' %}"
     />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{% static 'base.css' %}" />
     {% block styles_css %} {% endblock styles_css %}
   </head>
@@ -27,7 +27,7 @@
     <header>
       <li><a href="{% url 'index' %}">
       {% if user.is_authenticated %}
-        {{ user.username }}
+      {{ user.username }}
       {% else %}
       home
       {% endif %}      
@@ -39,6 +39,17 @@
       <li><a href="{% url 'register' %}">registration</a></li>
       {% endif %}
     </header>
-    {% block content %} {% endblock content %}
+    {% block content %}
+    
+    {% endblock content %}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+      config = {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+      }
+      flatpickr("input[type=datetime]",config);
+    </script>
   </body>
-</html>
+  </html>
+  

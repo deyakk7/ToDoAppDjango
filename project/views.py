@@ -13,7 +13,7 @@ def index(request):
     user = request.user
     context = {}
     if user.is_authenticated:
-        tasks = user.task_set.all()
+        tasks = user.task_set.all().order_by('complete', 'due')
         if not tasks:
             context['empty'] = True
         else:

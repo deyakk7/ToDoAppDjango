@@ -3,15 +3,24 @@
 {% load static %}
 
 {% block styles_css %}
-
+    <link rel="stylesheet" href="{% static 'project/styles/add.css' %}">
+    <link rel="stylesheet" href="{% static 'project/styles/update.css' %}">
 {% endblock styles_css %}
 
 {% block content %}
     <div class="container">
         <form action="" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit</button>
-        </form>
+            {% for field in form %}
+                {% if field.label == 'Complete' %}
+                <div class="wrapper-complete">
+                    {{field.label_tag}}
+                </div>
+                {% endif %}
+                {{field}}
+            {% endfor %}
+<div class="add-btn">
+                <button type="submit" class="btn btn-primary add">Add</button>
+            </div>        </form>
     </div>
 {% endblock content %}

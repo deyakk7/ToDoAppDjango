@@ -40,4 +40,11 @@ class CustomUserLogin(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'complete']
+        fields = ['title', 'description', 'complete', 'due']
+
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control inp', 'placeholder': 'Title'}),
+            'description': forms.Textarea(attrs={'class': 'form-control inp', 'placeholder': 'Description'}),
+            'complete': forms.CheckboxInput(attrs={'class': 'form-check-input inp'}),
+            'due': forms.TextInput(attrs={'class': 'inp-date','id': 'datetime','type': 'datetime', 'placeholder': 'Due'}),
+        }

@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
+{% load tz %}
 
 {% load static %}
 
 {% block styles_css %}
-
+<link rel="stylesheet" href="{%static 'project/styles/detail.css' %}">
 {% endblock styles_css %}
 
 {% block content %}
-    {{task.title}}
-    {{task.description}}
-    {{task.complete}}
+
+    <div class="container">
+        <h1 class="main-text">{{task.title}}</h1>
+        <p class="text">{{task.description}}</p>
+        {% timezone "Europe/Kyiv" %}
+        <div class="wrapper-time">
+            <h3 class='timeleft'>Created: {{task.created|date:"d/m/Y H:i:s"}}</h3>
+            <h3 class="timeleft">Due: {{task.due|timeuntil}}</h3>
+        </div>
+        {% endtimezone %}
+    </div>
 {% endblock content %}

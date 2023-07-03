@@ -8,7 +8,7 @@
   <h1 class="main-text">TODO App</h1>
   {% if user.is_authenticated %}
     {% if empty %}
-      <h3 class="empty">You have no Tasks!</h3>
+      <h3 class="empty">You have no tasks!</h3>
       {% else %}
       <div class="list">
       {% for task in tasks %}
