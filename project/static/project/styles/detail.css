@@ -15,20 +15,28 @@
     align-items: center;
     letter-spacing: 0.13rem;
     margin: 1rem;
+    padding-bottom: 8px;
     text-shadow: 0.5px 0.5px 1px #222;
+    border-bottom: 1px solid #222;
 }
 
 .text{
     letter-spacing: 0.25rem;
-    text-indent: 2rem;
-    width: 100%;
+    text-indent: 1.3rem;
+    width: 85%;
     height: 50%;
     overflow-y: auto;
+    font-size: 1.3rem;
+    margin: 0 auto;
+    padding: 5px;
+    text-align: justify;
 }
 
 .wrapper-time{
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
     margin: 2rem;
+    border-top: 1px solid #222;
+    padding: 1rem;
 }

@@ -5,10 +5,14 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 
+from datetime import timedelta, datetime
+
 from . import forms
 from .models import Task
 
 # Create your views here.
+
+
 def index(request):
     user = request.user
     context = {}
@@ -34,11 +38,10 @@ def register_page(request):
             user.username = user.username.lower()
             user.save()
             login(request, user)
-            return render(request, 'project/index.html', context)
+            return redirect('index')
     else:
         pass
     context['form'] = form
-        # context['form'] = form
     return render(request, 'project/register.html', context)
 
 
@@ -48,7 +51,7 @@ def login_page(request):
     context['form'] = form
     if request.user.is_authenticated:
         return redirect('index')
-    
+
     if request.method == 'POST':
         form = forms.CustomUserLogin(request.POST)
         username = request.POST.get('username').lower()
@@ -58,7 +61,7 @@ def login_page(request):
         if user is not None:
             login(request, user)
             return redirect('index')
-        
+
         else:
             context['error'] = 'Username or password is incorrect'
     return render(request, 'project/login.html', context)
@@ -68,15 +71,16 @@ def logout_page(request):
     logout(request)
     return redirect('index')
 
+
 @login_required(login_url='login')
 def add(request):
     form = forms.TaskForm()
     if request.method == 'POST':
         form = forms.TaskForm(request.POST)
         if form.is_valid():
-            task = form.save(commit=False)
-            task.owner = request.user
-            task.save()
+            current_task = form.save(commit=False)
+            current_task.owner = request.user
+            current_task.save()
             return redirect('index')
     return render(request, 'project/add.html', {'form': form})
 
@@ -89,7 +93,8 @@ def update(request, pk):
     if request.method == 'POST':
         form = forms.TaskForm(request.POST, instance=task)
         if form.is_valid():
-            form.save()
+            current_task = form.save(commit=False)
+            current_task.save()
             return redirect('index')
     return render(request, 'project/update.html', {'form': form})
 

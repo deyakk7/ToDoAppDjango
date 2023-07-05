@@ -14,7 +14,7 @@
         <p class="text">{{task.description}}</p>
         {% timezone "Europe/Kyiv" %}
         <div class="wrapper-time">
-            <h3 class='timeleft'>Created: {{task.created|date:"d/m/Y H:i:s"}}</h3>
+            {% comment %} <h3 class='timeleft'>Created: {{task.created|date:"d/m/Y H:i:s"}}</h3> {% endcomment %}
             <h3 class="timeleft">Due: {{task.due|timeuntil}}</h3>
         </div>
         {% endtimezone %}

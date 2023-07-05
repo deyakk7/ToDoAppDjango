@@ -12,7 +12,7 @@
     height: 1.2rem;
 }
 
-textarea{
+#id_description{
     resize: none;
-    height: 30vh;
+    height: 25vh;
 }

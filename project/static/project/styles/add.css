@@ -23,3 +23,19 @@
 .inp{
     margin: 1rem 0;
 }
+
+#id_description{
+    height: 30vh;
+}
+
+#datetime{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin:0 auto;
+}
+
+#id_description{
+    resize: none;
+    height: 25vh;
+}

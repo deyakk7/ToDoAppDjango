@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load tz %}
 
 {% block styles_css %}
     
@@ -11,6 +12,8 @@
     <div class="container">
         <form action="" method="POST">
             {% csrf_token %}
+        {% timezone "Europe/Kyiv" %}
+
             {% for field in form %}
             {% if field.label != 'Complete' %}
             {{field}}
@@ -19,6 +22,7 @@
             <div class="add-btn">
                 <button type="submit" class="btn btn-primary add">Add</button>
             </div>
+            {% endtimezone %}
         </form>
     </div>
 
