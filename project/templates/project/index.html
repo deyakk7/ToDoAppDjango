@@ -12,7 +12,7 @@
       {% else %}
       <div class="list">
       {% for task in tasks %}
-        <div class="list-item{% if task.complete %} complete{% elif task.due|timeuntil == "0 minutes" %} ended{% endif %}">
+        <div class="list-item{% if task.complete %} complete{% elif task.timeleft == 0 %} ended{%elif task.timeleft <= 86400 %} warning{% endif %}">
           <div class="link-detail">
               <a href="{% url 'detail' task.pk %}" class="link-detail__title">
                 <p class="title-task">{{ task.title|truncatewords:6}}</p>

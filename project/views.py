@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from datetime import timedelta, datetime
 
@@ -21,6 +22,10 @@ def index(request):
         if not tasks:
             context['empty'] = True
         else:
+            for task in tasks:
+                timeleft = task.due - datetime.now(timezone.utc)
+                timeleft = max(0, int(timeleft.total_seconds()))
+                task.timeleft = timeleft
             context['tasks'] = tasks
     return render(request, 'project/index.html', context)
 
@@ -103,6 +108,9 @@ def detail(requets, pk):
     task = get_object_or_404(Task, pk=pk)
     if task.owner != requets.user:
         return redirect('index')
+    timeleft = task.due - datetime.now(timezone.utc)
+    timeleft = max(0, int(timeleft.total_seconds()))
+    task.timeleft = timeleft
     return render(requets, 'project/detail.html', {'task': task})
 
 

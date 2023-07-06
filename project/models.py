@@ -9,3 +9,7 @@ class Task(models.Model):
     complete = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     due = models.DateTimeField(null=True, blank=True, auto_created=False, auto_now=False, default=None)
+    timeleft = models.IntegerField(null=True, blank=True, default=None)
+
+    def __str__(self):
+        return f"{self.title} - ({self.owner})"
