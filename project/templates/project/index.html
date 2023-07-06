@@ -5,14 +5,22 @@
 <link rel="stylesheet" href="{% static 'project/styles/index.css' %}" />
 {% endblock styles_css %} {% block content %}
 <div class="container">
-  <h1 class="main-text">TODO App</h1>
+  <div class="search">
+    <form action="{% url 'index' %}">
+      <input class="form-control search-inp" type="text" name="search_query" value="{{search_query}}" placeholder="Enter to find">
+      <input class="btn btn-primary find-btn" type="submit" value="Find">
+      <a href="{% url 'index' %}" class="btn btn-primary clear-btn">X</a>
+    </form>
+
+  </div>
+  
   {% if user.is_authenticated %}
     {% if empty %}
       <h3 class="empty">You have no tasks!</h3>
       {% else %}
       <div class="list">
       {% for task in tasks %}
-        <div class="list-item{% if task.complete %} complete{% elif task.timeleft == 0 %} ended{%elif task.timeleft <= 86400 %} warning{% endif %}">
+        <div class="list-item{% if task.complete %} complete{% elif task.timeleft == 0 %} ended{%elif task.timeleft <= 3600 %} warning{% endif %}">
           <div class="link-detail">
               <a href="{% url 'detail' task.pk %}" class="link-detail__title">
                 <p class="title-task">{{ task.title|truncatewords:6}}</p>
