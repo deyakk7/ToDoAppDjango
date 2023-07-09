@@ -15,13 +15,12 @@ from .models import Task
 
 
 def index(request):
-    user = request.user
     context = {}
-    if user.is_authenticated:
+    if request.user.is_authenticated:
         search_query = ""
         if request.GET.get('search_query'):
             search_query = request.GET.get('search_query')
-        tasks = user.task_set.filter(
+        tasks = request.user.task_set.filter(
             title__icontains=search_query).order_by('complete', 'due')
         if not tasks:
             context['empty'] = True

@@ -7,8 +7,7 @@
   width: 40%;
   height: 65vh;
   margin: auto;
-  background-color: #8de8e8d2;
-  background: linear-gradient(#8de8e8d2 40%, #70caee4d 100%);
+  background: #fff;
   border-radius: 20px;
   border: 1px solid #fff;
   padding: 0;
@@ -44,19 +43,16 @@ input{
   padding: 1rem 0;
   width: 100%;
   margin: 0 0 2rem 0;
-  background: linear-gradient(90deg, #ebebebee 0%, #ffffffc6 100%);
+  background:#fff;  
 }
 
 .btn{
-  margin: 0 auto;
-  /* width: 40%; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* transform: translate(-50%, -50%); */
-  font-size: 22px;
-  color:#222;
-  background:linear-gradient(rgba(102, 246, 239, 0.199), rgba(102, 246, 239, 0.242));
-  padding: 0.5rem 1.3rem;
-  border-color: rgba(126, 102, 246, 0.519);
+    position: fixed;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 23px;
+    width: 20%;
+
+
 }

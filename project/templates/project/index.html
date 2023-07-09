@@ -4,7 +4,10 @@
 {% block styles_css %}
 <link rel="stylesheet" href="{% static 'project/styles/index.css' %}" />
 {% endblock styles_css %} {% block content %}
+
 <div class="container">
+  
+  {% if user.is_authenticated %}
   <div class="search">
     <form action="{% url 'index' %}">
       <input class="form-control search-inp" type="text" name="search_query" value="{{search_query}}" placeholder="Enter to find">
@@ -13,8 +16,6 @@
     </form>
 
   </div>
-  
-  {% if user.is_authenticated %}
     {% if empty %}
       <h3 class="empty">You have no tasks!</h3>
       {% else %}
@@ -47,7 +48,7 @@
       
     </div>
     <div class="down-side">
-      <h2>you are not logged in! <br> Please, log in!</h2>
+      <h2 class="not-logged">you are not logged in! <br> Please, log in!</h2>
       <div class="wrapper-btn">
         <div class="btn-down">
           <a href="{% url 'login' %}" class="btn btn-primary">Log in</a>

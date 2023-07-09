@@ -1,7 +1,31 @@
+:root{
+  --color-background:#f6f6f9;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 55%;
+  height: 65vh;
+  padding: 0;
+  background-color: #fff;
+  border-radius: 20px;
+  min-width: 350px;
+  box-shadow: 0px 0px 1rem -0.3rem #222;
+}
+
+body{
+  background-color: var(--color-background);
+
 }
 li {
   list-style: none;
@@ -26,12 +50,14 @@ header {
   justify-content: end;
   align-items: center;
   padding: 1rem 2rem;
-  background: linear-gradient(90deg, #a5dff6ee 0%, #96ddfac6 100%);
+  background-color: #fff;
+  /* background: linear-gradient(90deg, #a5dff6ee 0%, #96ddfac6 100%); */
   opacity: 1;
   font-weight: bold;
   border-bottom-left-radius: 0.8rem;
   border-bottom-right-radius: 0.8rem;
-  box-shadow: 1px 1px 20px #222;
+  /* box-shadow: 1px 1px 2px #222; */
+  box-shadow: 0px -2px 10px #222;
 }
 
 
@@ -47,6 +73,6 @@ header {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(255, 42, 42);
+  background: rgb(80, 75, 75);
   border-radius: 10px;
 }
