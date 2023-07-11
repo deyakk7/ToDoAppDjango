@@ -58,19 +58,19 @@
 
           {% for page in custom_range %}
           {% if page == tasks.number %}
-            <a href="?page={{page}}" class="pag-num selected-page">
+            <a href="?page={{page}}&search_query={{search_query}}" class="pag-num selected-page">
               <li >{{page}}</li>
             </a>
 
             {% else %}
-            <a href="?page={{page}}" class="pag-num">
+            <a href="?page={{page}}&search_query={{search_query}}" class="pag-num">
               <li >{{page}}</li>
             </a>
             {% endif %}
             {% endfor %}
 
             {% if tasks.has_next %}
-            <a href="/?page={{tasks.next_page_number}}" class="pag-num">
+            <a href="/?page={{tasks.next_page_number}}&search_query={{search_query}}" class="pag-num">
               <li>Next &#10095;</li>
             </a>
             {% endif %}
