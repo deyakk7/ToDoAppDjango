@@ -9,7 +9,27 @@
 
 {% block content %}
 
-    <div class="container">
+{% timezone "Europe/Kyiv" %}
+    <div class="wrapper-container">
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="title">
+                        <h4>{{task.title}}</h2>
+                    </div>
+                    
+                </div>
+                <div class="card-back">
+                    <div class="desc-text">
+                        <p>{{task.description}}</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endtimezone %}
+    {% comment %} <div class="container">
         <h1 class="main-text">{{task.title}}</h1>
         <div class="text">
             {% if task.description %}
@@ -21,12 +41,16 @@
         </div>
         {% timezone "Europe/Kyiv" %}
         <div class="wrapper-time">
-            
+            {% if task.complete %}
+                <h3 class="complete">Completed</h3>
+            {% else %}
             <h3 class="timeleft">{% if task.timeleft != 0 %}Due: {{task.due|timeuntil}} {% else %}Time out!{% endif %}</h3>
             {% if not task.timeleft %}
                 <h3 class="timesince">Overdue by: {{task.due|timesince}}</h3>
             {% endif %}
+
+            {% endif %}
         </div>
         {% endtimezone %}
-    </div>
+    </div> {% endcomment %}
 {% endblock content %}

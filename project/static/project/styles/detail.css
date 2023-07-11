@@ -1,58 +1,71 @@
-.container{
+/* card styles */
+
+.wrapper-container{
     position: absolute;
     top:50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 70%;
-    height: 70vh;
-    border-radius: 19px;
-    background-color: white;
+    left:50%;
+    transform: translate(-50%, -50%);
 }
 
-.main-text{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    letter-spacing: 0.13rem;
-    margin: 1rem;
-    padding-bottom: 8px;
-    text-shadow: 0.5px 0.5px 1px #222;
-    border-bottom: 1px solid #222;
+.card {
+  width: 40vw;
+  height: 50vh;
+  perspective: 1000px;
+  background-color: transparent;
+  border:none;
 }
 
-.text{
-    letter-spacing: 0.25rem;
-    text-indent: 1.3rem;
-    width: 85%;
-    height: 50%;
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.999s;
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.card-front {
+  background-color: #3b3b3b;
+  color: #fff;
+  border: 10px solid #3b3b3b;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow-y: auto;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 24px;
+  transform: rotateY(0deg);
+}
+
+.card-back {
+  background-color: #DB2B39;
+  color: #fff;
+  display: flex;
+  /* align-items: center; */
+  border: 10px solid #DB2B39;
+  border-radius: 10px;
+  /* justify-content: center; */
+  font-size: 24px;
+  padding: 3px;
+  transform: rotateY(180deg);
+  /* overflow-y: auto; */
+}
+
+.desc-text{
+    height: 68%;
+    /* border:1px solid #000; */
     overflow-y: auto;
-    font-size: 1.3rem;
-    margin: 0 auto;
-    padding: 5px;
-    text-align: justify;
-}
-
-.timeleft{
-    font-size: 30px;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    margin: 2rem 2rem 0 2rem;
-    border-top: 1px solid #222;
-    padding: 1rem;
-}
-
-.timesince{
-    display: block;
-    font-size: 23px;
-    display: flex;
-    justify-content: end;
-    margin-right:2rem;
-    align-items: center;
-}
-
-
-h2{
-    font-size: 40px;
 }
 

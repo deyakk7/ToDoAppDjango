@@ -7,20 +7,29 @@
 {% endblock styles_css %}
 
 {% block content %}
-    <div class="container">
-        <h1 class="main-text">Log in</h1>
+    {% comment %} <div class="container"> {% endcomment %}
+        {% comment %} <h1 class="main-text">Log in</h1> {% endcomment %}
         
         <form action="" method="POST">
             {% csrf_token %}
+            <div class="container-login">
+        <div class="card">
+            <a class="login">Log in</a>
+
             {% for field in form %}
-                {{field}}    
+                <div class="inputBox">
+                    {{field}}
+                    <span class="user">{{field.label}}</span>
+                </div>
             {% endfor %}
             {% if error %}
-            <p>{{error}}</p>
-            
+            <p>{{error}}</p>    
             {% endif %}
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+
+            <button class="enter" type="submit">Enter</button>
+
+        </div>
     </div>
+        </form>
     
 {% endblock %}

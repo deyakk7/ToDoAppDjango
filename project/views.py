@@ -1,8 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.urls import reverse_lazy
-from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
@@ -10,26 +7,21 @@ from datetime import timedelta, datetime
 
 from . import forms
 from .models import Task
+from .utils import search_query, paginateTask
 
-# Create your views here.
 
 
 def index(request):
     context = {}
     if request.user.is_authenticated:
-        search_query = ""
-        if request.GET.get('search_query'):
-            search_query = request.GET.get('search_query')
-        tasks = request.user.task_set.filter(
-            title__icontains=search_query).order_by('complete', 'due')
-        if not tasks:
-            context['empty'] = True
-        else:
-            for task in tasks:
-                timeleft = task.due - datetime.now(timezone.utc)
-                timeleft = max(0, int(timeleft.total_seconds()))
-                task.timeleft = timeleft
-            context['tasks'] = tasks
+        tasks, search, empty = search_query(request)
+        custom_range, tasks = paginateTask(request, tasks, 3)
+        context['custom_range'] = custom_range
+        context['tasks'] = tasks
+        if search:
+            context['search_query'] = search
+        context['empty'] = empty
+    
     return render(request, 'project/index.html', context)
 
 
