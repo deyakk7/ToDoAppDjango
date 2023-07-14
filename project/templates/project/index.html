@@ -8,6 +8,7 @@
 <div class="container">
   
   {% if user.is_authenticated %}
+  <!--Search section-->
   <div class="search">
     <form action="{% url 'index' %}">
       <div class="search-items">
@@ -44,7 +45,7 @@
         </div>
         {% endfor %}
       </div>
-
+      
       {% if tasks.has_other_pages %}
       <ul class="paginator">
         <div class="con">

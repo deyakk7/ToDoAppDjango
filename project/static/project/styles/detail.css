@@ -1,10 +1,10 @@
 /* card styles */
 
-.wrapper-container{
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
+.wrapper-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .card {
@@ -12,7 +12,7 @@
   height: 50vh;
   perspective: 1000px;
   background-color: transparent;
-  border:none;
+  border: none;
 }
 
 .card-inner {
@@ -50,22 +50,55 @@
 }
 
 .card-back {
-  background-color: #DB2B39;
-  color: #fff;
-  display: flex;
-  /* align-items: center; */
-  border: 10px solid #DB2B39;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  border: 10px solid #090909;
   border-radius: 10px;
-  /* justify-content: center; */
   font-size: 24px;
-  padding: 3px;
+  padding: 2rem;
   transform: rotateY(180deg);
-  /* overflow-y: auto; */
+
 }
 
-.desc-text{
-    height: 68%;
-    /* border:1px solid #000; */
-    overflow-y: auto;
+.desc-text {
+  display: block;
+  height: 68%;
+  width: 100%;
+  overflow-y: auto;
+  text-indent: 2rem;
 }
 
+.complete-task{
+  border: 10px solid var(--color-completed) 
+}
+
+.ended-task{
+  border: 10px solid var(--color-ended) 
+}
+
+.warning-task{
+  border: 10px solid var(--color-warning) 
+}
+
+.justify{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#no-info{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper-time {
+    display: flex;
+  justify-content: space-around;
+  font-size:15px;
+}
+
+.completed {
+  font-size: 20px;
+  margin-top: 2rem ;
+}

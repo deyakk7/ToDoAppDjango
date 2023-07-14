@@ -19,38 +19,39 @@
                     </div>
                     
                 </div>
-                <div class="card-back">
-                    <div class="desc-text">
+                <div 
+                class="card-back 
+                    {% if task.complete %}
+                        complete-task
+                    {% elif task.timeleft == 0%}
+                        ended-task
+                    {% elif task.timeleft < 3600%}
+                        warning-task
+                    {% endif %}
+                "
+                >
+                    <div class="desc-text {% if not task.description %}justify{% endif %}">
+                        {% if task.description %}
                         <p>{{task.description}}</p>
+                        {% else %}
+                        <p id="no-info">No info added :(</p>
+                        {% endif %}
                     </div>
-                    
+                    <div class="wrapper-time">
+                        {% if task.complete %}
+                            <h3 class="completed">Completed!</h3>
+                        
+                        {% elif task.timeleft%}
+                             <h3 class="completed">Due: {{task.due|timeuntil}}!</h3>
+                        {% else %}
+                            <h3 class="completed">Time out!</h3>
+                            <h3 class="completed">Overdue by: {{task.due|timesince}}</h3>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 {% endtimezone %}
-    {% comment %} <div class="container">
-        <h1 class="main-text">{{task.title}}</h1>
-        <div class="text">
-            {% if task.description %}
-            <p>{{task.description}}</p>
-            {% else %}
-            <h2>No any info</h2>
-            {% endif %}
 
-        </div>
-        {% timezone "Europe/Kyiv" %}
-        <div class="wrapper-time">
-            {% if task.complete %}
-                <h3 class="complete">Completed</h3>
-            {% else %}
-            <h3 class="timeleft">{% if task.timeleft != 0 %}Due: {{task.due|timeuntil}} {% else %}Time out!{% endif %}</h3>
-            {% if not task.timeleft %}
-                <h3 class="timesince">Overdue by: {{task.due|timesince}}</h3>
-            {% endif %}
-
-            {% endif %}
-        </div>
-        {% endtimezone %}
-    </div> {% endcomment %}
 {% endblock content %}

@@ -15,7 +15,7 @@ def index(request):
     context = {}
     if request.user.is_authenticated:
         tasks, search, empty = search_query(request)
-        custom_range, tasks = paginateTask(request, tasks, 3)
+        custom_range, tasks = paginateTask(request, tasks, 1)
         context['custom_range'] = custom_range
         context['tasks'] = tasks
         if search:
