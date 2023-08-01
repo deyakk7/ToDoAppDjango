@@ -21,6 +21,7 @@
                     {{field}}
                     <span class="user">{{field.label}}</span>
                 </div>
+                {{field.errors}}
             {% endfor %}
             {% if error %}
             <p>{{error}}</p>    

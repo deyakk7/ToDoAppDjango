@@ -114,3 +114,30 @@ header {
 input::-ms-clear{
   display: none;
 }
+
+.alert-wrapper{
+  position: absolute;
+  top:0%;
+  left:0%;
+  width: 100%;
+}
+
+.alert-inner{
+  width: 30%;
+  margin: 2rem auto;
+}
+
+.alert{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  width: 100%;
+  top:0;
+  left:0;
+  z-index:1;
+}
+
+.endbtn{
+  cursor: pointer;
+
+}

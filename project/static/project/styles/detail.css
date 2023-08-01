@@ -36,8 +36,9 @@
 }
 
 .card-front {
-  background-color: #3b3b3b;
-  color: #fff;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  text-transform: uppercase;
   border: 10px solid #3b3b3b;
   display: flex;
   justify-content: center;

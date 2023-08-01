@@ -1,30 +1,130 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.utils import timezone
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
-from datetime import timedelta, datetime
+from datetime import datetime
 
 from . import forms
+from .mixins import CustomUserPassesTestMixin, NotLoggedMixin
 from .models import Task
 from .utils import search_query, paginateTask
-
 
 
 def index(request):
     context = {}
     if request.user.is_authenticated:
         tasks, search, empty = search_query(request)
-        custom_range, tasks = paginateTask(request, tasks, 1)
+        custom_range, tasks = paginateTask(request, tasks, 3)
         context['custom_range'] = custom_range
         context['tasks'] = tasks
         if search:
             context['search_query'] = search
         context['empty'] = empty
-    
+
     return render(request, 'project/index.html', context)
 
 
+class UserRegisterView(CreateView):
+    template_name = 'project/register.html'
+    model = User
+    form_class = forms.CustomUserCreationForm
+    success_url = reverse_lazy('login')
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Something goes wrong!')
+        return super().form_invalid(form)
+
+    def get_success_url(self) -> str:
+        messages.success(self.request, 'User has been created successfully!')
+        return super().get_success_url()
+
+
+class UserLoginView(LoginView):
+    template_name = 'project/login.html'
+    success_url = reverse_lazy('index')
+    redirect_authenticated_user = True
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Invalid username or password')
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def form_valid(self, form):
+        messages.success(
+            self.request, f'Welcome, {form.cleaned_data["username"]}!')
+        return super().form_valid(form)
+
+
+def logout_page(request):
+    logout(request)
+    messages.success(request, 'You have been logged out!')
+    return redirect('index')
+
+
+class TaskAddView(LoginRequiredMixin, CreateView):
+    model = Task
+    template_name = 'project/add.html'
+    form_class = forms.TaskForm
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        messages.success(self.request, 'Task added successfully')
+        return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Something goes wrong..')
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class TaskUpdateView(CustomUserPassesTestMixin, UpdateView):
+    model = Task
+    template_name = 'project/update.html'
+    form_class = forms.TaskForm
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Updated successfully')
+        return super().form_valid(form)
+
+
+class TaskDetailView(CustomUserPassesTestMixin, DetailView):
+    template_name = 'project/detail.html'
+    context_object_name = 'task'
+    model = Task
+    login_url = reverse_lazy('login')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        timeleft = self.get_object().due - datetime.now(timezone.utc)
+        timeleft = max(0, int(timeleft.total_seconds()))
+        context['timeleft'] = timeleft
+        return context
+
+
+class TaskDeleteView(CustomUserPassesTestMixin, DeleteView):
+    model = Task
+    template_name = 'project/delete.html'
+    success_url = reverse_lazy('index')
+    login_url = reverse_lazy('login')
+
+    def get_success_url(self) -> str:
+        messages.success(self.request, 'deleted successfully')
+        return super().get_success_url()
+
+
+"""
+FUNCTION BASED VIEWS
+
+"""
+
+# idk how to login with registration
 def register_page(request):
     if request.user.is_authenticated:
         return redirect('index')
@@ -67,11 +167,6 @@ def login_page(request):
     return render(request, 'project/login.html', context)
 
 
-def logout_page(request):
-    logout(request)
-    return redirect('index')
-
-
 @login_required(login_url='login')
 def add(request):
     form = forms.TaskForm()
@@ -106,6 +201,7 @@ def detail(requets, pk):
     timeleft = task.due - datetime.now(timezone.utc)
     timeleft = max(0, int(timeleft.total_seconds()))
     task.timeleft = timeleft
+    print(type(task.timeleft))
     return render(requets, 'project/detail.html', {'task': task})
 
 

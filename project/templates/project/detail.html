@@ -13,7 +13,15 @@
     <div class="wrapper-container">
         <div class="card">
             <div class="card-inner">
-                <div class="card-front">
+                <div class="card-front 
+                {% if task.complete %}
+                        complete-task
+                    {% elif timeleft == 0%}
+                        ended-task
+                    {% elif timeleft < 3600%}
+                        warning-task
+                    {% endif %}
+                ">
                     <div class="title">
                         <h4>{{task.title}}</h2>
                     </div>
@@ -23,9 +31,9 @@
                 class="card-back 
                     {% if task.complete %}
                         complete-task
-                    {% elif task.timeleft == 0%}
+                    {% elif timeleft == 0%}
                         ended-task
-                    {% elif task.timeleft < 3600%}
+                    {% elif timeleft < 3600%}
                         warning-task
                     {% endif %}
                 "
@@ -41,7 +49,7 @@
                         {% if task.complete %}
                             <h3 class="completed">Completed!</h3>
                         
-                        {% elif task.timeleft%}
+                        {% elif timeleft%}
                              <h3 class="completed">Due: {{task.due|timeuntil}}!</h3>
                         {% else %}
                             <h3 class="completed">Time out!</h3>

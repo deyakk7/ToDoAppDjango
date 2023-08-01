@@ -12,14 +12,32 @@
       type="image/png"
       sizes="32x32"
       rel="icon"
-      href="{% static 'favicon.png' %}"
+      href="{% static 'img/favicon.png' %}"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="{% static 'base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     {% block styles_css %} {% endblock styles_css %}
   </head>
   <body
   >
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert-wrapper">
+    <div class="alert-inner">
+      <div class="alert {{message.tags}}" id="msg" role="alert">
+        <div class="">
+          {{message}}
+        </div>
+        
+        <div class="endbtn">
+          x
+        </div>
+    </div>
+    </div>
+  </div>
+  {% endfor %}
+  <script type='text/javascript' src="{% static 'js/base.js' %}"></script>
+    {% endif %}
     <header>
       <li><a href="{% url 'index' %}">
       {% if user.is_authenticated %}
@@ -46,6 +64,8 @@
       }
       flatpickr("input[type=datetime]",config);
     </script>
+
+
   </body>
   </html>
   
