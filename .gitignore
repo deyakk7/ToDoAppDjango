@@ -1,2 +1,5 @@
 venv
 .vscode
+db.sqlite3
+todo/__pycache__
+project/__pycache__
