@@ -120,11 +120,16 @@ input::-ms-clear{
   top:0%;
   left:0%;
   width: 100%;
+  animation: alertMove 8s 1;
+  animation-fill-mode: forwards;
+  z-index: 5034;
+  border:none;
 }
 
 .alert-inner{
   width: 30%;
   margin: 2rem auto;
+    border:none;
 }
 
 .alert{
@@ -135,9 +140,30 @@ input::-ms-clear{
   top:0;
   left:0;
   z-index:1;
+    border:none;
 }
 
 .endbtn{
   cursor: pointer;
+}
 
+@keyframes alertMove {
+  0% {
+    transform: translateY(-70px);
+    opacity: 0.1;
+  }
+
+  10%{
+    transform: translateY(30px);
+    opacity: 1;
+  }
+
+  50%{
+    transform: translateY(30px);
+  }
+
+  100% {
+    display: none;
+    transform: translateY(-545px);
+  }
 }

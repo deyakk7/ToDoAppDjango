@@ -1,3 +1,5 @@
+from typing import Any, Dict
+from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib import messages
@@ -16,20 +18,42 @@ from .mixins import CustomUserPassesTestMixin, NotLoggedMixin
 from .models import Task
 from .utils import search_query, paginateTask
 
+"""
+CLASS BASED VIEW
 
-def index(request):
-    context = {}
-    if request.user.is_authenticated:
-        tasks, search, empty = search_query(request)
-        custom_range, tasks = paginateTask(request, tasks, 3)
+"""
+
+class TaskListView(ListView):
+    model = Task
+    template_name = 'project/index.html'
+    context_object_name = 'tasks'
+    ordering = ['complete', 'due']
+    paginate_by = 1
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        custom_range = context['paginator'].get_elided_page_range(
+            context['page_obj'].number, on_each_side=2, on_ends=1)
         context['custom_range'] = custom_range
-        context['tasks'] = tasks
-        if search:
-            context['search_query'] = search
-        context['empty'] = empty
+        sq = self.request.GET.get('search_query')
+        if sq:
+            context['search_query'] = sq
 
-    return render(request, 'project/index.html', context)
+        return context
 
+    def get_queryset(self) -> QuerySet[Any]:
+        if self.request.user.is_authenticated:
+            q = self.request.GET.get('search_query')
+            if q:
+                object_list = self.model.objects.filter(owner=self.request.user, title__icontains=q).order_by('complete', 'due')
+            else:
+                object_list = self.model.objects.filter(owner=self.request.user).order_by('complete', 'due')
+            for task in object_list:
+                timeleft = task.due - datetime.now(timezone.utc)
+                timeleft = max(0, int(timeleft.total_seconds()))
+                task.timeleft = timeleft
+            return object_list
+        return super().get_queryset()
 
 class UserRegisterView(CreateView):
     template_name = 'project/register.html'
@@ -61,6 +85,7 @@ class UserLoginView(LoginView):
         return super().form_valid(form)
 
 
+#AND LOGOUT FUNCTION :D
 def logout_page(request):
     logout(request)
     messages.success(request, 'You have been logged out!')
@@ -124,7 +149,20 @@ FUNCTION BASED VIEWS
 
 """
 
-# idk how to login with registration
+def index(request):
+    context = {}
+    if request.user.is_authenticated:
+        tasks, search, empty = search_query(request)
+        custom_range, tasks = paginateTask(request, tasks, 3)
+        context['custom_range'] = custom_range
+        context['tasks'] = tasks
+        if search:
+            context['search_query'] = search
+        context['empty'] = empty
+        
+
+    return render(request, 'project/index.html', context)
+
 def register_page(request):
     if request.user.is_authenticated:
         return redirect('index')

@@ -238,6 +238,12 @@ a{
   cursor: pointer;
 }
 
+.unable-page:hover{
+  transform: none;
+  cursor: default;
+}
+
+
 .selected-page{
   background-color: #222;
   color:#f2f2f2;
