@@ -22,7 +22,8 @@
     </form>
 
   </div>
-    {% if tasks.count == 0 %}
+  
+    {% if not tasks %}
       <h3 class="empty">No tasks!</h3>
       {% else %}
       <div class="list">

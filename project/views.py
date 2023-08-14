@@ -45,14 +45,14 @@ class TaskListView(ListView):
         if self.request.user.is_authenticated:
             q = self.request.GET.get('search_query')
             if q:
-                object_list = self.model.objects.filter(owner=self.request.user, title__icontains=q).order_by('complete', 'due')
+                tasks = self.model.objects.filter(owner=self.request.user, title__icontains=q).order_by('complete', 'due')
             else:
-                object_list = self.model.objects.filter(owner=self.request.user).order_by('complete', 'due')
-            for task in object_list:
+                tasks = self.model.objects.filter(owner=self.request.user).order_by('complete', 'due')
+            for task in tasks:
                 timeleft = task.due - datetime.now(timezone.utc)
                 timeleft = max(0, int(timeleft.total_seconds()))
                 task.timeleft = timeleft
-            return object_list
+            return tasks
         return super().get_queryset()
 
 class UserRegisterView(CreateView):
